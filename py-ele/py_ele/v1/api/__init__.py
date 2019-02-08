@@ -37,10 +37,12 @@ class Vator(object):
 
     def inventory(self):
         results = []
+        # USE .items() INSTEAD OF .iteritems() FOR PYTHON3?
         for fid, name in self.floor_map.iteritems():
             results.append({'id': fid, 'name': name})
-        for fid, name in self.car_map.iteritems():
-            results.append({'id': fid, 'name': name})
+        # USE cid INSTEAD OF fid FOR CARS?
+        for cid, name in self.car_map.iteritems():
+            results.append({'id': cid, 'name': name})
         return results
 
     def current_floor(self, car_id):
@@ -48,12 +50,27 @@ class Vator(object):
         return {'id': floor_id, 'name': self.floor_map[floor_id]}
 
     def find_closest_car(self, floor_id):
-        # To be completed
-        pass
+        min_distance = None
+        target_floor_index = self.floor_list.index(
+            self.floor_map[floor_id])
+        for cid in self.car_map.keys():
+            car_current_floor_id = self.current_floor(cid)['id']
+            if car_current_floor_id == floor_id:
+                closest_car_id = cid
+                break
+            else:
+                car_floor_index = self.floor_list.index(
+                    self.floor_map[car_current_floor_id])
+                if min_distance == None or abs(target_floor_index - car_floor_index) < min_distance:
+                    min_distance = abs(target_floor_index - car_floor_index)
+                    closest_car_id = cid
+        return closest_car_id
 
     def call_car(self, floor_id):
-        # To be completed
-        pass
+        closest_car = self.find_closest_car(floor_id)
+        self.car_current_floor[closest_car] = floor_id
+        return self.car_map[closest_car]
 
 
-elevator = Vator(['B2', 'B1', 'MZ', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7'], 2)
+elevator = Vator(['B2', 'B1', 'MZ', 'F1', 'F2',
+                  'F3', 'F4', 'F5', 'F6', 'F7'], 2)

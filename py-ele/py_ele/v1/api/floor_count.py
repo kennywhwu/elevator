@@ -5,6 +5,7 @@ from . import Resource
 from .. import schemas
 from . import elevator
 
+
 class FloorCount(Resource):
 
     def get(self):

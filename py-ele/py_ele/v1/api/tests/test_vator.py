@@ -4,6 +4,7 @@ import unittest
 
 from .. import Vator
 
+
 class TestVator(unittest.TestCase):
 
     def test_floor_count(self):
@@ -47,7 +48,7 @@ class TestVator(unittest.TestCase):
         self.assertTrue(closest_to_c == mid_car or closest_to_c == bottom_car)
 
     def test_call_car(self):
-        # the method Elevator.call_Car should take a floor_id (fid) and
+        # the method elevator.call_car should take a floor_id (fid) and
         # move the closest car to that floor
         vator = Vator(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'], 2)
         # Both cars are on first floor
@@ -61,6 +62,7 @@ class TestVator(unittest.TestCase):
         vator.call_car(fid_h)
         self.assertEqual(vator.car_current_floor[car_one], fid_h)
         # Calling again shouldn't bring the other car to floor F
+        # ...shouldn't bring the other car to floor *H*
         vator.call_car(fid_h)
         self.assertEqual(vator.car_current_floor[car_one], fid_h)
         self.assertNotEqual(vator.car_current_floor[car_two], fid_h)
